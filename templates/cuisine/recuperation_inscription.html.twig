@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Validation{% endblock %}
+
+
+{% block stylesheets %}
+          <link rel="stylesheet" href={{ asset('assets/css/style_menuform.css') }}>
+{% endblock %}
+
+
+{% block body %}
+{# /*  */ #}
+{# <form method="POST" action="{{path("app_menu",{Menu})}}"> #}
+{# <h2 class="week-title"> SEMAINE : {{Date_recuperee['1']}} </h2> #}
+
+ <div class="clearfix">
+  <div class="column">
+    <a href="{{ path('app_cuisinerecuperation', { 'semaine_year': (Date_recuperee['1'] - 1) ~ '_' ~ Date_recuperee['2'] }) }}">
+      <button class="button" id="suiv-prec">
+        Semaine précédente
+      </button>
+      <span class="arrow-icon">&lt;</span>
+    </a>
+  </div>
+  <div class="column">
+   <h2 class="inscriptiontxt"> SEMAINE : {{Date_recuperee['1']}} </h2>
+  </div>
+  <div class="column">
+    <a href="{{ path('app_cuisinerecuperation', { 'semaine_year': (Date_recuperee['1'] + 1) ~ '_' ~ Date_recuperee['2'] }) }}">
+      <button class="button" id="suiv-prec">
+        Semaine suivante
+      </button>
+      <span class="arrow-icon">&gt;</span>
+    </a>
+  </div>
+</div>
+
+{% set Day=['Lundi', 'Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'] %}
+<div class="grid-container">
+{% for i in 1..7 %}
+    <div class="card">
+
+    <div class={{Day[i-1] ~ "-container"}}>
+    <img class={{Day[i-1] ~ "-img"}} src={{ asset("assets/img/" ~ Day[i-1] ~ ".png")}} alt="">
+    
+</div>
+<div class="date-week-container">
+    <h2 class="date-week"> {{Date_recuperee['0'][i-1]|date("d/m")}}</h2>
+
+    </div>
+    {% for meal in ['m','s'] %}
+    <div class="meal">
+    {% if loop.first %} <h3 class="titremidi">Plat du midi </h3> {% else %}<h3 class="titresoir">Plat du soir </h3>{% endif %}
+      <div class="course">
+       {% set NameDay= {'entree':'Entrée', 'plat':'Plat', 'dessert':'Dessert'}%}
+          {% for course in ['entree', 'plat', 'dessert'] %}
+                <label for=""> {{NameDay[course]}} :</label>
+                <div class="course-container">
+                    <div class="course">
+                    {% if Menu_A[course ~ '_' ~ meal ~ i] is not empty %}
+                            {% for k in 0..(Menu_A[course ~ '_' ~ meal ~ i]|length)-1 %}
+                                <div class="center-div">
+                                    <h4 class="center-text column-element"> {{Menu_A[course ~ '_' ~ meal ~ i][k]}} </h4>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                     </div>
+                  </div>
+                  
+          {% endfor %}
+         <h4 class="students-count"> 
+    Nombre d'élèves inscrits : 
+    <div class="students-number">{{ListEleves['BTN_' ~ meal ~ i]|length}}</div>
+</h4> 
+
+<button class="students-toggle">Afficher les noms des élèves</button>
+<div class="students-list hidden">
+    <div class="students-content"> 
+        {% if ListEleves['BTN_' ~ meal ~ i] is not empty %}
+            {% for kl in 0..(ListEleves['BTN_' ~ meal ~ i]|length)-1 %}
+            <p class="student-name"> {{ListEleves['BTN_' ~ meal ~ i][kl]}} </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+
+
+      </div>
+  
+      </div>
+      {% endfor %}
+
+</div>
+      {% endfor %}
+</div>
+
+          
+{# 
+  <button class="subscribeButton btn">
+                <i class="subscribeIcon bx bx-user-check"></i>
+                <span class="subscribeText">S'inscrire</span>
+            </button> #}
+
+{# </form>  #}
+{# </section> #}
+{% endblock %}
+{% block javascripts %}
+           <script src={{ asset('assets/script/script.js') }}></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src={{ asset('assets/script/searchPlats.js') }}></script>
+    {% endblock %}
+
+
