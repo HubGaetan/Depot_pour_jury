@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}facturation{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href={{ asset('assets/css/style_facturation.css') }}>
+{% endblock %}
+
+{% block navigation %} {% endblock %}
+
+{% block body %}
+
+{% set emailParts = app.user.email|split('@') %}
+{% set firstName = emailParts[0]|split('.')[0] %}
+{% set lastName = emailParts[0]|split('.')[1] %}
+    <header>
+        <img src={{ asset('assets/img/LOGO-BASELINE-FOND-BLEU.png') }} alt="Logo" class="logo">
+        <h1 class="facture">FACTURE du {{ DateT[0]|date('d/m/Y') }} au {{ DateT[1]|date('d/m/Y') }}</h1>
+    </header>
+    <div class="adresses">
+        <address class="institut">
+            Avenue du Château Hébert<br>
+            BP70339<br>
+            35800 Dinard<br>
+            Tél : +33 2 99 46 66 03<br>
+            Site : <a href="http://www.institutsolacroup.com">www.institutsolacroup.com</a><br>
+            Email : <a href="mailto:secretariat@instjtutsolacroup.com">secretariat@instjtutsolacroup.com</a>
+           <div class="certification">
+        <span class="certification-text">Centre de formation professionnel<br>
+                                        Certifié qualité qualiopi</span>
+        <img src={{ asset('assets/img/Logo-Qualiopi.png') }} alt="Logo Qualiopi" class="qualiopi-logo">
+    </div>
+        </address>
+        <address class="eleve">
+            {{ firstName|capitalize }} {{ lastName|capitalize }} <br>
+            {% if app.user.AdressePostale %} 
+      {{app.user.AdressePostale[0]}} <br>
+      {{app.user.AdressePostale[1]}} {{app.user.AdressePostale[2]}}<br> 
+      
+      {% endif %}
+           
+        </address>
+    </div>
+  
+{% set sommeHeb = 0 %}
+    <div class="ligne-titres">
+        <span class="titre-description">Description</span>
+        <span class="titre-qty">Qté</span>
+        <span class="titre-pu-ht">P.U. HT</span>
+        <span class="titre-montant-ht">Montant HT</span>
+    </div>
+    {% if app.user.status == 'PensComp' or app.user.status == 'Pens' %}
+    <div class="ligne-description">
+        <span class="description-text">HEBERGEMENT PENSION COMPLETE DU {{ DateT[0]|date('d/m/Y') }} au {{ DateT[1]|date('d/m/Y') }}</span>
+    </div>
+
+    {% set sommeHeb = 420 %}
+    <div class="ligne-item">
+        <span class="item-description">HEBERGEMENT PENSION COMPLETE</span>
+        <span class="item-qty">1</span>
+        <span class="item-pu-ht">350</span>
+        <span class="item-montant-ht">350</span>
+    </div>
+    <div class="ligne-item">
+        <span class="item-description">CHARGES DIVERSE (WIFI, ELECTRICITE)</span>
+        <span class="item-qty">1</span>
+        <span class="item-pu-ht">70</span>
+        <span class="item-montant-ht">70</span>
+    </div>
+    {% endif %}
+    <div class="ligne-item">
+        <span class="item-description">ALIMENTATION</span>
+        <span class="item-qty">{{ Facture[app.user.email]['somme'] }}</span>
+        <span class="item-pu-ht">{{ Facture[app.user.email]['somme']  * 2.5}}</span>
+        <span class="item-montant-ht">{{ Facture[app.user.email]['somme']  * 2.5}}</span>
+    </div>
+    
+    <div class="conditions">
+        <p>Escompte pour règlement anticipé : 0%</p>
+        <p>En cas de retard de paiement, une pénalité égale à 3 fois le taux d'intérêt légal sera exigible (Décret 2009-138 du 9 février 2009).</p>
+        <p>Pour les professionnels, une indemnité minimun forfaitaire de 40 euros pour frais de recouvrement sera exigible (Décret 2012-1115 du 9 octobre 2012).</p>
+    </div>
+    
+    <div class="total">
+        <div class="ligne-total">
+            <span class="total-label">Total HT :</span>
+            <span class="total-prix">{{ Facture[app.user.email]['somme']  * 2.5 + sommeHeb}}</span>
+        </div>
+        <div class="ligne-total">
+            <span class="total-label">Accomptes :</span>
+            <span class="total-prix">0</span>
+        </div>
+        <div class="ligne-total">
+            <span class="total-label">Net à payer :</span>
+            <span class="total-prix">{{ Facture[app.user.email]['somme']  * 2.5 + sommeHeb}}</span>
+        </div>
+        <div class="ligne-total">
+            <span class="total-label">Solde dû :</span>
+            <span class="total-prix">{{ Facture[app.user.email]['somme']  * 2.5 + sommeHeb}}</span>
+        </div>
+    </div>
+    <footer>
+        <p>Siret : 414 339 689 00013 - APE9499Z - RCS : 414 339 689 - Numéro d'activité formation professionnel : 533 510 28535</p>
+        <p>BANQUE : CREDIT AGRICOLE - IBAN : FR76 1360 3946 3271 4628 927 - BIC : AGRIFRPP836</p>
+    </footer>
+    
+    
+
+ 
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script src="{{ absolute_url(asset('assets/script/script.js')) }}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="{{ absolute_url(asset('assets/script/searchPlats.js')) }}"></script>
+ {% endblock %}
+
+

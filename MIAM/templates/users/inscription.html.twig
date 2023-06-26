@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href={{ asset('assets/css/style_menuform.css') }}>
+{% endblock %}
+
+{% block body %}
+{# <h1> VOS INSCRIPTIONS </h1> #}
+
+
+<form  method="POST" action="{{path("app_usersvalidation",{ semaine_year })}}">
+
+<h2 class="week-title"> SEMAINE : {{Date_recuperee['1']}} </h2>
+
+{% set Day=['Lundi', 'Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'] %}
+<div class="grid-container">
+{% for i in 1.. tabinscription["NbJ"] %}
+    <div class="card">
+
+    <div class={{Day[i-1] ~ "-container"}}>
+    <img class={{Day[i-1] ~ "-img"}} src={{ asset("assets/img/" ~ Day[i-1] ~ ".png")}} alt="">
+    {# <h2> {{Date_recuperee['0'][i-1]|date("d/m")}}</h2>  #}
+    </div>
+    <div class="date-week-container"> <h2 class="date-week"> {{Date_recuperee['0'][i-1]|date("d/m")}}</h2>
+</div>
+
+    
+ 
+       
+
+        {% for meal in ['m','s'] %}
+        <div class="meal">
+        {% if loop.first %} <h3 class="titremidi">Plat du midi </h3> {% else %}<h3 class="titresoir">Plat du soir </h3>{% endif %}
+            <div class="course">
+    
+                {% set NameDay= {'entree':'Entrée', 'plat':'Plat', 'dessert':'Dessert'}%}
+                {% for course in ['entree', 'plat', 'dessert'] %}
+                     <label for="">{{NameDay[course]}} :</label>
+                   <div class="course-container">
+                    <div class="course">
+                        {% if Menu_A[course ~ '_' ~ meal ~ i] is not empty %}
+                            {% for k in 0..(Menu_A[course ~ '_' ~ meal ~ i] | length) - 1 %}
+                                <div class="center-div">
+                                    <h4 class="center-text column-element">{{ Menu_A[course ~ '_' ~ meal ~ i][k] }}</h4>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+            
+             <label class="subscribeButton btn">
+                {# {{tabinscription['btn_' ~ meal ~ i]}} #}
+            <input type="hidden" class="hiddenCheckbox" name="{{ 'btn_' ~ meal ~ i }}" value={{tabinscription['btn_' ~ meal ~ i]}}>
+            <input type="hidden" class="hiddenState" value={{tabinscription['btn_' ~ meal ~ i]}}>
+            <i class="subscribeIcon bx bx-user-x"></i>
+                </label>
+
+                {# <span class="subscribeText">Se désincrire</span> #}
+              
+        </div>
+
+        {# <p> S'inscrire </p> #}
+        {# <input type="checkbox" name="{{ 'btn_' ~ meal ~ i }}"> #}
+
+        
+        {% endfor %}
+
+    </div>
+{% endfor %}
+</div>
+          <div class="button-container">
+    <button id="menu-button-valider" type="submit">Valider vos inscriptions</button>
+        </div>
+{# 
+  <button class="subscribeButton btn">
+                <i class="subscribeIcon bx bx-user-check"></i>
+                <span class="subscribeText">S'inscrire</span>
+            </button> #}
+
+</form> 
+
+<script src="{{ absolute_url(asset('assets/script/script.js')) }}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+{% endblock %}
+
+
+{% block javascripts %}
+{# 
+<script src="{{ absolute_url(asset('assets/script/script.js')) }}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> #}
+{#<script src="{{ absolute_url(asset('assets/script/searchPlats.js')) }}"></script> #}
+ {% endblock %}

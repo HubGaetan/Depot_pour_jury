@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SHOW{% endblock %}
+
+
+{% block stylesheets %}
+          <link rel="stylesheet" href={{ asset('assets/css/style_menuform.css') }}>
+{% endblock %}
+
+
+{% block body %}
+{# 
+ {% for item in  Menu.m1 %}
+             
+                    {% for subitem in item %}
+                         <h4>{{ subitem }}</h4>   
+                    {% endfor %}
+                {% endfor %} #}
+ 
+
+<form method="POST" action="{{path("app_menuvotevalidate",{semaine_year})}}">
+
+
+{% set Day=['Lundi', 'Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'] %}
+   <div class="grid-container">
+{% for i in 1..7 %}
+    <div class="card">
+      <h2> {{Day[i-1]}} </h2>
+    {% for meal in ['M','S'] %}
+    <div class="meal">
+      
+       
+         <h3>Plat du {% if loop.first %}MIDI{% else %}SOIR{% endif %} </h3>
+       {% set NameDay= ['Entrée','Plat','Dessert']%}
+       {% set DISH=['e','p','d']%}
+       {% set ind=0 %}
+          {% for item in Menu[meal ~ i] %}
+          
+          {% if item %}
+          <div class="course">
+           <label for=""> {{NameDay[ind]}} :</label>
+            {% for course in item %}
+                            <h4> {{ course }} </h4>
+            {% endfor %}
+            <label for="">Note:</label>
+   <select id="" name="{{'Note_' ~ meal ~ i ~ '_' ~ DISH[ind] }}">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+   </select>
+                           
+                       
+                      
+                      </div>
+                      {% endif %}
+                      {% set ind=ind+1 %}
+          {% endfor %}
+          
+         
+         
+      
+  
+      </div>
+      {% endfor %}
+
+</div>
+      {% endfor %}
+</div>
+{#          
+  <button class="subscribeButton btn">
+                <i class="subscribeIcon bx bx-user-check"></i>
+                <span class="subscribeText">S'inscrire</span>
+            </button> #} #}
+          <input type="submit" value="soumettre vos votes" background-color="black">
+
+</form> 
+{% endblock %}
+
+
+{% block javascripts %}
+           <script src={{ asset('assets/script/script.js') }}></script>
+           
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src={{ asset('assets/script/searchPlats.js') }}></script>
+    {% endblock %}
+

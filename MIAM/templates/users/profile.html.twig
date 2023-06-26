@@ -1,0 +1,310 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Votre Profil {% endblock %}
+
+
+{% block stylesheets %}
+           <link rel="stylesheet" href={{ asset('assets/css/stylePageProfil.css') }}>
+            <link rel="stylesheet" href={{ asset('assets/css/style.css') }}>
+        {% endblock %}
+
+{% block body %}
+
+{# on recupere le nom et le prenom a partir de l'adresse mail #}
+{% set emailParts = app.user.email|split('@') %}
+{% set firstName = emailParts[0]|split('.')[0] %}
+{% if ((emailParts[0]|split('.')[1]) is defined) %}
+{% set lastName = emailParts[0]|split('.')[1] %}
+{% else %}
+{% set lastName = '' %}
+{% endif %}
+
+    <div class="container">
+        <h1>Profil élève</h1>
+        <form  method="POST" action="{{path("app_setusersprofile")}}">         
+        
+
+
+<div class="centered-content"> 
+    <div class="left-column">
+        <div class="adresse">
+        <label class="name" for="nom">Nom :</label>
+          <p class="nom-eleve">{{ firstName |capitalize}} {{ lastName |capitalize}}</p>
+            <span class="white-text">Adresse :</span>
+            {% if app.user.AdressePostale %}
+                <span class="blue-text">{{app.user.AdressePostale[0]}}</span>
+            {% else %}
+                <span class="missing-info"> Veuillez renseigner votre adresse </span>
+            {% endif %}
+        </div>
+        <div>
+            <span class="white-text">Code postal :</span>
+            {% if app.user.AdressePostale %}
+                <span class="blue-text">{{app.user.AdressePostale[1]}}</span>
+            {% endif %}
+        </div>
+        <div>
+            <span class="white-text">Ville :</span>
+            {% if app.user.AdressePostale %}
+                <span class="blue-text">{{app.user.AdressePostale[2]}}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="right-column">
+  <h3 class="title-info"> Vos informations </h3>
+  <div class="user-info">
+    <p><span class="white-text">Formation :</span> {% if app.user.formation %} {{app.user.formation}} {%else%} <p class="missing-info"> Veuillez renseigner votre formation </p> {% endif %}</p>
+    <p><span class="white-text">Régime :</span> {% if app.user.status %} {{app.user.status}} {%else%} <p class="missing-info"> Veuillez renseigner votre regime </p> {% endif %}</p>
+    <p><span class="white-text">Vous avez un régime</span>
+    {% if app.user.vegan %} <span class="diet">végétarien</span> 
+    {% else %}
+    <span> classique </span> 
+    {% if app.user.porc == "0"  %} <span> sans porc </span> {% endif %} 
+    {% endif %}
+    </p>
+    {% if app.user.allergies %} <p><span class="white-text">Avec comme allergies déclarées :</span></p>
+    {% for i in 0.. (app.user.allergies|length)-1%}
+    <p class="allergy">- {{ app.user.allergies[i]|capitalize }}</p>
+    {% endfor %}
+    {% endif %}
+  </div>
+ </div>
+</div>
+
+     
+
+          <button class="modify option-button" type="button" id="modifyBtn">Modifier</button>
+          <div class="options-container">
+          <button class="collapse-btn option-button" type="button" data-target="formation-options">
+            Formation
+            <i class="bx bx-chevron-down"></i>
+          </button>
+          <div class="formation-options">
+
+          <div> <input type="radio" id="Formateur" name="formation" value='Personnel IMTS' {% if app.user.formation %} {% if app.user.formation == 'Personnel IMTS' %} checked {% endif %} {% endif %} > 
+          <!-- <input type="hidden" class="hiddenCheckbox" name="frontEnd_hidden" value="off"> -->
+           <label for="Formateur">Personnel de l'IMTS</label> </div>
+            <div>
+              <input type="radio" id="frontEnd" name="formation" value='Front-End' {% if app.user.formation %} {% if app.user.formation == 'Front-End' %} checked {% endif %} {% endif %} >
+              <!-- <input type="hidden" class="hiddenCheckbox" name="frontEnd_hidden" value="off"> -->
+              <label for="frontEnd">Front-End</label>
+            </div>
+            <div>
+              <input type="radio" id="backEnd" name="formation" value='Back-End' {% if app.user.formation %} {% if app.user.formation == 'Back-End' %} checked {% endif %} {% endif %}>
+              <!-- <input type="hidden" class="hiddenCheckbox" name="backEnd_hidden" value="off"> -->
+              <label for="backEnd">Back-End</label>
+            </div>
+            <div>
+              <input type="radio" id="cda" name="formation"  value='CDA' {% if app.user.formation %} {% if app.user.formation == 'CDA' %} checked {% endif %} {% endif %}>
+              <!-- <input type="hidden" class="hiddenCheckbox" name="cda_hidden" value="off"> -->
+              <label for="cda">CDA</label>
+            </div>
+            <div>
+              <input type="radio" id="poa" name="formation" value='POA' {% if app.user.formation %} {% if app.user.formation == 'POA' %} checked {% endif %} {% endif %}>
+              <!-- <input type="hidden" class="hiddenCheckbox" name="poa_hidden" value="off"> -->
+              <label for="poa">POA</label>
+            </div>
+            <div>
+              <input type="radio" id="era" name="formation" value='ERA' {% if app.user.formation %} {% if app.user.formation == 'ERA' %} checked {% endif %} {% endif %}>
+              <!-- <input type="hidden" class="hiddenCheckbox" name="era_hidden" value="off"> -->
+              <label for="era">ERA</label>
+            </div>
+            <div>
+              <input type="radio" id="prepaNum" name="formation" value='PrepaNum' {% if app.user.formation %} {% if app.user.formation == 'PrepaNum' %} checked {% endif %} {% endif %}>
+              <!-- <input type="hidden" class="hiddenCheckbox" name="prepaNum_hidden" value="off"> -->
+              <label for="prepaNum">Prepa Num</label>
+            </div>
+          </div>
+
+
+
+          <button class="collapse-btn option-button" type="button" data-target="regime-options">
+            Régime
+            <i class="bx bx-chevron-down"></i>
+          </button>
+          <div class="regime-options">
+            <div>
+              <input type="radio" id="Demi" name="regime" value='Demi' required  {% if app.user.status %} {% if app.user.status == 'Demi' %} checked {% endif %} {% endif %}>
+              <!-- <input type="hidden" class="hiddenCheckbox" name="demiPensionnaire_hidden" value="off"> -->
+              <label for="Demi">Demi-pensionnaire</label>
+            </div>
+            <div>
+              <input type="radio" id="Pens" name="regime" value='Pens' required {% if app.user.status %} {% if app.user.status == 'Pens' %} checked {% endif %} {% endif %}>
+              <!-- <input type="hidden" class="hiddenCheckbox" name="interne_hidden" value="off"> -->
+              <label for="Pens">Pension (hors-WE)</label>
+            </div>
+            <div>
+              <input type="radio" id="PensComp" name="regime" value='PensComp' required {% if app.user.status %} {% if app.user.status == 'PensComp' %} checked {% endif %} {% endif %}>
+              <!-- <input type="hidden" class="hiddenCheckbox" name="pensioncomplete_hidden" value="off"> -->
+              <label for="PensComp">Pension Complète</label>
+            </div>
+            <div>
+              <input type="radio" id="Ext" name="regime" value='Ext' required {% if app.user.status %} {% if app.user.status == 'Ext' %} checked {% endif %} {% endif %}>
+              <!-- <input type="hidden" class="hiddenCheckbox" name="externe_hidden" value="off"> -->
+              <label for="Ext">Externe</label>
+            </div>
+          </div>
+      
+           <button class="collapse-btn option-button" type="button" data-target="vegan-options">
+            Vegan
+            <i class="bx bx-chevron-down"></i>
+          </button>
+          <div class="vegan-options">
+         
+         
+            <input type="radio" id="vegan-oui" name="vegan" value= "1" {% if app.user.vegan is defined %} {% if app.user.vegan == "1" %} checked {% endif %} {% endif %}>
+            <!-- <input type="hidden" class="hiddenCheckbox" name="vegan-oui_hidden" value="off"> -->
+            <label for="vegan-oui">Oui</label>
+      
+            <input type="radio" id="vegan-non" name="vegan" value= "0" {% if app.user.vegan is defined %} {% if app.user.vegan == "0" %} checked {% endif %} {% endif %}>
+            <!-- <input type="hidden" class="hiddenCheckbox" name="vegan-non_hidden" value="off"> -->
+            <label for="vegan-non">Non</label>
+          </div>
+
+          <button class="collapse-btn option-button" type="button" data-target="porc-options">
+            avec/sans porc
+            <i class="bx bx-chevron-down"></i>
+          </button>
+          <div class="porc-options">
+            <input type="radio" id="porc-oui" name="porc" value= "1" {% if app.user.porc is defined  %} {% if app.user.porc == "1" %} checked {% endif %} {% endif %}>
+            <!-- <input type="hidden" class="hiddenCheckbox" name="vegan-oui_hidden" value="off"> -->
+            <label for="porc-oui">avec porc</label>
+      
+            <input type="radio" id="porc-non" name="porc" value= "0" {% if app.user.porc is defined %} {% if app.user.porc == "0" %} checked {% endif %} {% endif %}>
+            <!-- <input type="hidden" class="hiddenCheckbox" name="vegan-non_hidden" value="off"> -->
+            <label for="porc-non">sans porc</label>
+          </div>
+          <button class="collapse-btn option-button" type="button" data-target="allergies-options">
+            Allergies
+            <i class="bx bx-chevron-down"></i>
+          </button>
+          <div class="allergies-options">
+            <div>
+              <input type="checkbox" id="arachides" name="allergies[]" value="arachides" {% if "arachides" in app.user.allergies %} checked {% endif %}>
+              {# <input type="hidden" class="hiddenCheckbox" name="arachides_hidden" value="on"> #}
+              <label for="arachides">Arachides</label>
+            </div>
+            <div>
+        <input type="checkbox" id="gluten" name="allergies[]" value="gluten" {% if "gluten" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="gluten_hidden" value="on"> #}
+        <label for="gluten">Gluten</label>
+        </div>
+    <div>
+        <input type="checkbox" id="oeufs" name="allergies[]" value="oeufs" {% if "oeufs" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="oeufs_hidden" value="on"> #}
+        <label for="oeufs">Oeufs</label>
+    </div>
+    <div>
+        <input type="checkbox" id="poissons" name="allergies[]" value="poissons" {% if "poissons" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="poissons_hidden" value="on"> #}
+        <label for="poissons">Poissons</label>
+    </div>
+    <div>
+        <input type="checkbox" id="fruits-a-coque" name="allergies[]" value="fruits-a-coque" {% if "fruits-a-coque" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="fruits-a-coque_hidden" value="on"> #}
+        <label for="fruits-a-coque">Fruits à coque</label>
+    </div>
+    <div>
+        <input type="checkbox" id="lait" name="allergies[]" value="lait" {% if "lait" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="lait_hidden" value="on"> #}
+        <label for="lait">Lait</label>
+    </div>
+    <div>
+        <input type="checkbox" id="celeri" name="allergies[]" value="celeri" {% if "celeri" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="celeri_hidden" value="on"> #}
+        <label for="celeri">Céleri</label>
+    </div>
+    <div>
+        <input type="checkbox" id="moutarde" name="allergies[]" value="moutarde" {% if "moutarde" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="moutarde_hidden" value="on"> #}
+        <label for="moutarde">Moutarde</label>
+    </div>
+    <div>
+        <input type="checkbox" id="sesame" name="allergies[]" value="sesame" {% if "sesame" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="sesame_hidden" value="on"> #}
+        <label for="sesame">Sésame</label>
+    </div>
+    <div>
+        <input type="checkbox" id="soja" name="allergies[]" value="soja" {% if "soja" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="soja_hidden" value="on"> #}
+        <label for="soja">Soja</label>
+    </div>
+    <div>
+        <input type="checkbox" id="sulfites" name="allergies[]" value="sulfites" {% if "sulfites" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="sulfites_hidden" value="on"> #}
+        <label for="sulfites">Sulfites</label>
+    </div>
+    <div>
+        <input type="checkbox" id="mollusques" name="allergies[]" value="mollusques" {% if "mollusques" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="mollusques_hidden" value="on"> #}
+        <label for="mollusques">Mollusques</label>
+    </div>
+    <div>
+        <input type="checkbox" id="lupin" name="allergies[]" value="lupin" {% if "lupin" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="lupin_hidden" value="on"> #}
+        <label for="lupin">Lupin</label>
+    </div>
+    <div>
+        <input type="checkbox" id="crustaces" name="allergies[]" value="crustaces" {% if "crustaces" in app.user.allergies %} checked {% endif %}>
+        {# <input type="hidden" class="hiddenCheckbox" name="crustaces_hidden" value="off"> #}
+        <label for="crustaces">Crustacés</label>
+    </div>
+</div>
+
+          
+          <div class="collapse-btn">
+  <div class="form-group">
+    <label for="adresse">Adresse :</label>
+    <input type="text" id="adresse" name="adresse_postale[]" class="form-input" {% if app.user.AdressePostale  %} value = "{{app.user.AdressePostale[0]}}"  {% endif %}>
+  </div>
+  <div class="form-group">
+    <label for="CP">Code postal :</label>
+    <input type="text" id="CP" name="adresse_postale[]" class="form-input" {% if app.user.AdressePostale  %} value = "{{app.user.AdressePostale[1]}}"  {% endif %} >
+  </div>
+  <div class="form-group">
+    <label for="ville">Ville :</label>
+    <input type="text" id="ville" name="adresse_postale[]" class="form-input" {% if app.user.AdressePostale  %} value = "{{app.user.AdressePostale[2]}}"  {% endif %}>
+  </div>
+</div>
+
+<button type="submit" class="button-valider">Valider</button>
+
+</div>
+        </form>
+       
+        {% set semaine_year = 'today' %}
+        {% set m_month_year = 'today' %}
+        {# <div class="button-place">
+       <a href="{{path("app_showmenu",{ semaine_year })}}">
+       <button type="button" id="menuBtn" >Voir le menu de la semaine 
+       </button> 
+       </a>
+        {# <button type="button" id="factureBtn">Gerer et voir les inscriptions </button> #}
+        {# <a href="{{path('app_usersfacturation', { m_month_year })}}">
+        <button type="button" id="factureBtn">Votre facture </button>
+        </a>
+        </div> #} 
+
+
+        <div class="button-place"> <a href="{{path("app_showmenu",{ semaine_year })}}"><button type="button" id="menuBtn" >Voir le menu de la semaine </a></button>
+    
+    <a href="{{path('app_usersfacturation', { m_month_year })}}">
+    <button type="button" id="factureBtn">Votre facture </a></button> 
+    
+    </div>
+</div>
+
+
+
+    
+
+ {% endblock %}
+
+ 
+{% block javascripts %}
+
+<script src="{{ absolute_url(asset('assets/script/script_Profil.js')) }}"></script>
+{# <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="{{ absolute_url(asset('assets/script/searchPlats.js')) }}"></script> #}
+ {% endblock %}

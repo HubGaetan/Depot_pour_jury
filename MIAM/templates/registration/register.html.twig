@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+{# twig de la page registration #}
+{% block title %}S'inscrire!{% endblock %}
+
+{% block body %}
+  <section>
+        <div class="form-box">
+            <div class="form-value">
+
+                {{ form_start(registrationForm) }}
+                    
+                    {% if app.user %}
+                      <div class="mb-3">
+                         Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+                     </div>
+                     {% endif %}
+
+            <h2>S'inscrire</h2>
+            
+            <div class="inputbox-1">
+                <ion-icon name="mail-outline"></ion-icon>
+                {{ form_widget(registrationForm.email, {
+                    'attr': {'class': 'form-control', 'autocomplete': 'email', 'required': true, 'autofocus': true}
+                }) }}
+                <label for="{{ registrationForm.email.vars.id }}">Email</label>
+            </div>
+
+            <div class="inputbox-2">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                {{ form_widget(registrationForm.plainPassword, {
+                    'attr': {'class': 'form-control', 'autocomplete': 'current-password', 'required': true}
+                }) }}
+                <label for="{{ registrationForm.plainPassword.vars.id }}">Mot de passe</label>
+            </div>
+
+            {#
+            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+            See https://symfony.com/doc/current/security/remember_me.html
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                </label>
+            </div>
+            #}
+
+            <button type="submit" class="login-button">S'inscrire</button>
+     
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+  </section>
+{% endblock %}
+
+
+
+
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {# {{ form_row(registrationForm.agreeTerms) }} #}
+
+        {# <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+{% endblock %} #} 

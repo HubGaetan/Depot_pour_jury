@@ -1,0 +1,100 @@
+{#  ce twig étend base.html.twig dans lequel est injecté et donc remplace les valeurs par défaut des différents blocks   #}
+{% extends 'base.html.twig' %}
+
+{% block title %} Edition du menu {% endblock %}
+
+{# on remplace ici le fichier css a charger #}
+{% block stylesheets %}
+    <link rel="stylesheet" href={{ asset('assets/css/style_menuform.css') }}>
+{% endblock %}
+
+{# on injecte ici le block body dans le <body> html ce qui correspond au corps de la page #}
+{% block body %}
+{# 
+création du formulaire en méthode POST qui renvoit vers la page app_validatemenu qui permet d'afficher le menu rentré par l'utilisateur afin de le valider
+avec comme parametre url $semaine_year #}
+<form  method="POST" action="{{path("app_validatemenu",{ semaine_year })}}">
+
+{# affichage de la semaine recherchée #}
+<h2 class="week-title"> SEMAINE : {{Date_recuperee['1']}} </h2>
+
+{# définition des jours de la semaine  #}
+{% set Day=['Lundi', 'Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'] %}
+<div class="grid-container">
+{# on boucle sur les jours de la semaine #}
+{% for i in 1..7 %}
+
+{# affichage de l'image correspondant au jour #}
+    <div class="card">  
+    <div class={{Day[i-1] ~ "-container"}}>
+    <img class={{Day[i-1] ~ "-img"}} src={{ asset("assets/img/" ~ Day[i-1] ~ ".png")}} alt="">
+    </div>
+
+{# affichage du jour sous la forme DD/MM #}
+    <div class="date-week-container"> 
+    <h2 class="date-week"> {{Date_recuperee['0'][i-1]|date("d/m")}}</h2>
+    </div>
+       
+{# on boucle sur midi/soir #}
+    {% for meal in ['m','s'] %}
+        <div class="meal">
+        {# si c'est le premier passage de la boucle on affiche "plat du midi" sinon "plat du soir" #}
+        {% if loop.first %} <h3 class="titremidi">Plat du midi </h3> {% else %}<h3 class="titresoir">Plat du soir </h3>{% endif %}
+            <div class="course">
+                {# définition des labels des jours #}
+                {% set NameDay= {'entree':'Entrée', 'plat':'Plat', 'dessert':'Dessert'}%}
+
+                {# on boucle sur entree plat dessert #}
+                {% for course in ['entree', 'plat', 'dessert'] %}
+
+                    {# on affiche le label du plat #}
+                    <label for="">{{NameDay[course]}} :</label>
+
+                    {# on cree un champ permettant d'ajouter des plats #}
+                    <input type="text" id="{{course ~ '_' ~ meal ~ i}}" name="{{course ~ '_' ~ meal ~ i ~ '[]'}}" list="{{course ~ '_' ~ meal ~ i ~ '_datalist'}}" >
+                    
+                    on cree la datalist qui permet d'utiliser le javascript searchplats
+                    <datalist id="{{course ~ '_' ~ meal ~ i ~ '_datalist'}}">
+                    </datalist>
+                    {# on affiche si il y en a les plats enregistrés pour cette partie de repas (entree, plat,dessert) #}
+                    <div class="selected-suggestions" name="{{course ~ '_' ~ meal ~ i ~ '_selected'}}">
+                        {% if Menu_A[course ~ '_' ~ meal ~ i] is not empty %}
+                        {# on boucle sur la liste de plat trouvé et l'affiche dans des spans #}
+                            {% for k in 0..(Menu_A[course ~ '_' ~ meal ~ i]|length)-1 %}
+                                <input type="hidden" name="{{course ~ '_' ~ meal ~ i ~'[]'}}" value="{{'ID:' ~ Menu_AI[course ~ '_' ~ meal ~ i][k] ~ ':' ~ Menu_A[course ~ '_' ~ meal ~ i][k]}}" id="{{course ~ '_' ~ meal ~ i ~ '_' ~ Menu_AI[course ~ '_' ~ meal ~ i][k] ~ '_' ~ Menu_A[course ~ '_' ~ meal ~ i][k]}}">
+                                <span class="selected-suggestion" data-id="{{Menu_AI[course ~ '_' ~ meal ~ i][k]}}">{{Menu_A[course ~ '_' ~ meal ~ i][k]}}
+                                    <span class="remove-suggestion" style="background-color: transparent; border: none; cursor: pointer;"><i class="bx bx-x"></i></span>
+                                </span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    {% endfor %}
+    </div>
+
+    {# on affiche le bouton de validation qui permet d'envoyer le formulaire en POST #}
+    <div class="button-container">
+    <button id="menu-button-valider" type="submit">Valider le menu de la semaine</button>
+    </div>
+
+
+</form> 
+
+
+{% endblock %}
+
+{# on remplace ici le block javascript pour avoir searchplats.js qui permet de généré la datalist #}
+
+{% block javascripts %}
+<script src="{{ absolute_url(asset('assets/script/script.js')) }}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="{{ absolute_url(asset('assets/script/searchPlats.js')) }}"></script>
+{% endblock %}
+
+

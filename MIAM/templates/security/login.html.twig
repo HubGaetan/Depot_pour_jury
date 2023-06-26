@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+  <section>
+        <div class="form-box">
+            <div class="form-value">
+
+                <form method="post">
+                    {% if error %}
+                      <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                     {% if app.user %}
+                      <div class="mb-3">
+                         You are logged in as {{ app.user.email }}, <a href="{{ path('app_logout') }}">Logout</a>
+                     </div>
+                     {% endif %}
+
+            <h2>Connexion</h2>
+            <div class="center-google">
+    <a href="{{ path('connect_google') }}" class="center-link">
+   
+        <img src= {{ asset('assets/img/google.png') }} alt="Logo Google" class="logo-image">
+         Avec vôtre adresse Google IMTS
+    </a>
+</div>
+<div class="separator">ou</div>
+           
+       <div class="inputbox-1">
+       <ion-icon name="mail-outline"></ion-icon>
+        
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+    <label for="inputEmail">Email</label>
+     </div>
+                    <div class="inputbox-2">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        
+   
+    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+  <label for="inputPassword">Password</label>
+ </div>
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
+    {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+    #}
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+    
+
+   <button class="login-button">Se connecter</button>
+     
+</form>
+ </div>
+        </div>
+    </section>
+  
+{% endblock %}
