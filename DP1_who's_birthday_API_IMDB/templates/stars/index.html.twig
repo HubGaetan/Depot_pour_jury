@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+ 
+{% block bodyStars %}
+  <!-- Portfolio Section-->
+ <link href="../css/styles.css" rel="stylesheet" />
+
+{# affichage de la card AddStar #}
+    <section class="page-section portfolio" id="titre">
+
+            <div class="container mb-5 ">
+                <!-- Portfolio Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-5 mt-5"> {{StarFound[0].name}}
+           </h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+
+</section>
+<div class="container">
+<a href = "/stars/edit/{{StarFound[0].IdIMDB|replace({'/name/': ''})}}">
+ <button> editer </button></a>
+     <div class="row">
+            <div class="col-md-3 col-lg-2 mb-2">
+            <img class="img-fluid" src=  {{  StarFound[0].ImageUrl }}/>     
+            </div>
+            
+             <div class="col-md-6 col-lg-8 mb-2">
+             {{  StarFound[0].Biography }}  
+            </div>
+
+            <div class="col-md-3 col-lg-2 mb-2">
+             Taille : {{  StarFound[0].Height }}  
+             <br>
+             <br>
+             Lieu de naissance : {{  StarFound[0].BirthPlace }} 
+             <br>
+             <br>
+             Signe Astrologique : {{SignAstro}}
+             
+            </div>
+
+    </div>
+</div>
+
+            
+
+
+
+{% endblock %}
+{# 
+ $Stars->setIdIMDB($ph->id);
+        $Stars->setname($ph->name);
+        $Stars->setImageUrl($ph->image->url);
+        $Stars->setBirthday($ph->birthDate);
+        $Stars->setBirthplace($ph->birthPlace);
+        $Stars->setHeight($ph->heightCentimeters);
+        $Stars->setBiography($ph->miniBios[0]->text);
+        $YMD = explode('-', $ph->birthDate);
+        $Stars->setMD(intval($YMD[1] . $YMD[2]));
+        $Stars->setYear(intval($YMD[0])); #}

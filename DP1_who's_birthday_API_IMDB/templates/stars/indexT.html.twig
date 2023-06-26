@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+
+{% block bodyStars %}
+
+   <section class="page-section portfolio" id="titre">
+
+            <div class="container">
+                <!-- Portfolio Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Happy Birthday </h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <!-- formulaire choix de date-->
+                <div>
+                    <label for="start">Date Recherchée:</label>
+                  <form action="#">
+                     <input type="date" id="start" name="ChosenDay"value="2018-07-22" min="1980-01-01" max="2023-12-31">
+                     <input type="submit" method='POST' value= "go">
+                  </form>
+                  
+                </div>
+
+</section>
+
+<section>
+<div class="container">
+    <div class="row">
+{{StarFound[0].idIMDB}}
+{{StarFound[0].Name}}
+</div>
+</div>
+</section>
+
+{% endblock %}

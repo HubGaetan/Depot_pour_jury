@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserAuthController!{% endblock %}
+
+{% block bodyStars %}
+ <link href={{asset("css/styles.css")}} rel="stylesheet" />
+        
+<section class="page-section portfolio mt-10" id="tisdfe">
+    <div class="container mt-10 mb-10">
+
+        {{ form_start(form)}}
+        <div class="row">
+            <div class="col"> {{form_row(form.name)}} </div>
+            <div class="col"> {{form_row(form.Year)}} </div>
+            <div class="col"> {{form_row(form.birthplace)}} </div>
+        </div>
+        <div class="row">
+        {{ form_row(form.biography) }}
+        </div>
+         <div class="row">
+        {{ form_row(form.image_url) }}
+        </div>
+        <div class="row">
+        {{ form_row(form.photo) }}
+        </div>
+         <div class="row">
+        {{ form_row(form.editer) }}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

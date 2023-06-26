@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+ 
+{% block bodyStars %}
+  <!-- Portfolio Section-->
+ 
+        
+         <section class="page-section portfolio" id="titre">
+<div class="container mt-5">
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-4">
+    <h2> les stars nées le : {{DateString}} </h2>
+    </div>
+    <div class="col-md-6">
+      <h2> HAPPY BIRTHDAY </h2>  {% if starfound[0]!=[] %} {{starfound[0].Name}} {% endif %}
+    </div>
+    <div class="col col-lg-2 ">
+ <label for="start">Date Recherchée:</label>
+                  <form action="#">
+                     <input type="date" id="start" name="ChosenDay"value="{{DateString}}" min="1980-01-01" max="2023-12-31">
+                     <input type="submit" method='POST' value= "go">
+                  </form>   
+                 </div>
+  </div>
+   <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+
+ {% for message in app.session.flashbag.get('success') %}
+             <div class="alert alert-success">
+             {{message}}
+             </div>
+        {% endfor %}
+
+            {# <div class="container mt-3">
+            <div class="row">
+                <!-- Portfolio Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Happy Birthday {{date}} </h2>
+                <!-- Icon Divider-->
+                 <div>
+                    <label for="start">Date Recherchée:</label>
+                  <form action="#">
+                     <input type="date" id="start" name="ChosenDay"value="2018-07-22" min="1980-01-01" max="2023-12-31">
+                     <input type="submit" method='POST' value= "go">
+                  </form>
+                </div> #}
+                {# <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div> #}
+                <!-- formulaire choix de date-->
+                {# <div>
+                    <label for="start">Date Recherchée:</label>
+                  <form action="#">
+                     <input type="date" id="start" name="ChosenDay"value="2018-07-22" min="1980-01-01" max="2023-12-31">
+                     <input type="submit" method='POST' value= "go">
+                  </form>#}
+                </div> 
+
+</section>
+
+
+
+{# affichage de la card AddStar #}
+<section>
+<div class="container mt-0">
+    <div class="row">
+ 
+                 {# renvoit vers le controller addstar #}
+                <div class="col-md-2 col-lg-2 mb-0">
+                {# <a href = "{{path('app_stars_add',["ChosenDay" ,{{date}}])}}"> #}
+                <a href = "/stars/add/{{date}}">
+                        <img class="img-fluid" src= "assets/img/portfolio/point_int.jpg"  />
+                </a> 
+                </div>
+            
+            {% if app.user %}
+             <div class="col-md-2 col-lg-2 mb-0">
+                {# <a href = "{{path('app_stars_add',["ChosenDay" ,{{date}}])}}"> #}
+                <a href = "/user/auth/add/{{date}}">
+                        <img class="img-fluid" src= "assets/img/portfolio/point_int_perso.jpg"  />
+                </a> 
+                </div>
+            {% endif %}
+
+{# AFFICHAGE DES RESULTATS #}
+
+                {% if starfound[0]!=[] %}
+                    {% for i in 0..NbStarFound-1 %}
+       
+                         
+                        <div class="col-md-2 col-lg-2">
+                       
+                         <a href = "/stars/{{starfound[loop.index0].IdIMDB|replace({'/name/': ''})}}">
+                           {# <img class="img-fluid" src=  {{  starfound[loop.index0].ImageUrl }}/> #}
+                         {% if (starfound[loop.index0].ImageUrl) %}
+                        <img class="img-fluid" src=  {{  starfound[loop.index0].ImageUrl }}/>
+                        {% else %}
+                         <img class="img-fluid"  src= "{{ (starfound[loop.index0].Image) }}" />
+                         {% endif %}
+                        </a>
+                        </div>
+                        
+{# portfolioModal #}
+                     {# <div class="portfolio-modal modal fade" id={{loop.index0}} tabindex="-1" aria-labelledby="portfolioModal.{{i}}" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <!-- Portfolio Modal - Title-->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Log Cabin</h2>
+                                    <!-- Icon Divider-->
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                    <!-- Portfolio Modal - Image-->
+                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/cabin.png" alt="..." />
+                                    <!-- Portfolio Modal - Text-->
+                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
+                                    <button class="btn btn-primary" data-bs-dismiss="modal">
+                                        <i class="fas fa-xmark fa-fw"></i>
+                                        Close Window
+                                    </button>
+                                </div>
+                            </div> #}
+                        {# </div>
+                    </div>
+                </div> #}
+            {# </div>
+        </div> #}
+
+                    
+                    {% endfor %}
+                
+            
+                {% endif %}
+            </div>
+            </div>
+            </section>
+
+{% endblock %}
