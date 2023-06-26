@@ -1,0 +1,351 @@
+a {
+  text-decoration: none;
+  color: white;
+}
+
+
+.container {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 100px;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.2em;
+}
+
+p.nom-eleve {
+  color: white;
+  font-family: 'BD Supper';
+  font-size: 2em;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #ffaaaa;
+}
+
+input[type="checkbox"] {
+  width: auto;
+}
+
+.regime-options {
+  display: grid;
+  /* grid-template-columns: repeat(4, 1fr); */
+  gap: 10px;
+}
+
+.regime-options div {
+  /* display: flex; */
+  align-items: center;
+}
+
+.regime-options input[type="checkbox"] {
+  width: auto;
+  margin-right: 5px;
+}
+
+button {
+  grid-column: 1 / -1;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 0;
+  padding: 10px 24px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  font-family: 'BD Supper';
+
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ddd;
+}
+
+
+
+.allergies-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.allergies-options div {
+  /* display: flex; */
+  align-items: center;
+}
+
+.allergies-options input[type="checkbox"] {
+  width: auto;
+  margin-right: 5px;
+}
+
+.name,
+.regime,
+.label-vegan,
+.label-allergies {
+  color: white;
+  font-size: 1.2em;
+  margin-bottom: -20px;
+  font-weight: 800;
+
+}
+
+.regime-options,
+.vegan-options,
+.allergies-options,
+.formation-options,
+.porc-options {
+  display: none;
+}
+
+
+.collapse-btn,
+.button-valider {
+  display: none;
+}
+
+
+.collapse-btn.visible,
+.button-valider.visible {
+  display: block;
+}
+
+
+.option-button {
+  width: 30%;
+
+}
+
+.button-valider {
+  width: 30%;
+  background-color: #97C1A9;
+
+}
+
+
+.button-place {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 50px;
+}
+
+
+
+.title-info {
+  font-family: 'Montserrat', sans-serif;
+  color: #f23a29;
+  font-size: 31px;
+  margin-bottom: 40px;
+  text-align: center;
+  margin-top: 23px;
+}
+
+
+.user-info {
+  font-family: Arial, sans-serif;
+  color: #97C1A9;
+  font-size: 18px;
+  line-height: 1.5;
+  /* text-align: center; */
+}
+
+
+.user-info p {
+  color: white;
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin: 5px;
+}
+
+
+.user-info .allergy {
+  margin-bottom: 0px;
+  color: white;
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin: 5px;
+}
+
+
+.user-info .diet {
+  color: white;
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin: 5px;
+}
+
+.white-text {
+  color: white;
+  font-weight: 300;
+  font-size: 1.1rem;
+  font-family: 'roboto', sans-serif;
+}
+
+.blue-text {
+  color: white;
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin: 5px;
+}
+
+.missing-info {
+  color: white;
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin: 5px;
+}
+
+
+
+.form-group {
+  margin-bottom: 20px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+
+.form-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 60%;
+  box-sizing: border-box;
+
+}
+
+.adresse .white-text,
+.adresse .blue-text {
+  margin-right: 0.5rem;
+  font-family: 'roboto', sans-serif;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.centered-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.left-column,
+.right-column {
+  flex: 1;
+  max-width: 50%;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.left-column {
+  padding-right: 1rem;
+}
+
+.right-column {
+  padding-left: 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 767px) {
+
+  .option-button,
+  .button-valider {
+    width: 100%;
+  }
+
+  .left-column,
+  .right-column {
+    min-width: 100%;
+    padding: 0.5rem;
+  }
+
+  .adresse .white-text,
+  .adresse .blue-text,
+  .user-info .white-text {
+    margin-right: 0.25rem;
+  }
+
+  .button-place {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .container {
+    padding-top: 71px;
+  }
+
+  h1 {
+    margin-bottom: 50px;
+  }
+
+  .allergies-options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .regime-options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .form-input {
+    width: 100%;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+
+  .title-info {
+    font-size: 27px;
+    margin-top: 15px;
+  }
+
+}
+
+@media screen and (max-width: 480px) {
+  .allergies-options {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .regime-options {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
